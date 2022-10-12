@@ -154,19 +154,23 @@ impl Rover {
 }
 
 #[cfg(test)]
-mod tests {
+mod run_commands {
 
     use crate::direction::Direction;
     use crate::map::Map;
     use crate::obstacle::Obstacle;
     use crate::position::Position;
     use crate::rover::Rover;
+    use lazy_static::lazy_static;
+
+    lazy_static! {
+        static ref MAP: Map = Map::new(0, 0, 5, 5);
+        static ref POSITION: Position = Position::new(3, 2);
+    }
 
     #[test]
-    fn run_commands() {
-        let map = Map::new(0, 0, 5, 5);
-        let position = Position::new(3, 2);
-        let mut rover = Rover::new(position, Direction::N, map, None);
+    fn move_forward_turn_move_backward() {
+        let mut rover = Rover::new(*POSITION, Direction::N, *MAP, None);
         let commands = Vec::from(["f", "l", "b"]);
         rover.run_commands(commands);
         assert_eq!(rover.get_x(), 4);
@@ -176,9 +180,7 @@ mod tests {
 
     #[test]
     fn wrapping_forwards() {
-        let map = Map::new(0, 0, 5, 5);
-        let position = Position::new(3, 2);
-        let mut rover = Rover::new(position, Direction::N, map, None);
+        let mut rover = Rover::new(*POSITION, Direction::N, *MAP, None);
         let commands = Vec::from(["f", "f", "f", "f", "f", "r", "f", "f", "f"]);
         rover.run_commands(commands);
         assert_eq!(rover.get_x(), 0);
@@ -188,9 +190,7 @@ mod tests {
 
     #[test]
     fn wrapping_backwards() {
-        let map = Map::new(0, 0, 5, 5);
-        let position = Position::new(3, 2);
-        let mut rover = Rover::new(position, Direction::N, map, None);
+        let mut rover = Rover::new(*POSITION, Direction::N, *MAP, None);
         let commands = Vec::from(["b", "b", "b", "l", "b", "b", "b", "b"]);
         rover.run_commands(commands);
         assert_eq!(rover.get_x(), 1);
@@ -200,12 +200,11 @@ mod tests {
 
     #[test]
     fn obstacle_in_the_way() {
-        let map = Map::new(0, 0, 5, 5);
-        let position = Position::new(3, 2);
-        let obstacle_1 = Obstacle::new(Position::new(0, 3));
-        let obstacle_2 = Obstacle::new(Position::new(2, 4));
-        let obstacle_list = Vec::from([obstacle_1, obstacle_2]);
-        let mut rover = Rover::new(position, Direction::N, map, Some(obstacle_list));
+        let obstacle_list = Vec::from([
+            Obstacle::new(Position::new(0, 3)),
+            Obstacle::new(Position::new(2, 4)),
+        ]);
+        let mut rover = Rover::new(*POSITION, Direction::N, *MAP, Some(obstacle_list));
         let commands = Vec::from(["r", "b", "b", "b", "l", "f", "f", "f"]);
         rover.run_commands(commands);
         assert_eq!(rover.get_x(), 0);

@@ -1,6 +1,7 @@
 use crate::Obstacle;
 use crate::Position;
 
+#[derive(Copy, Clone, Debug, PartialEq)]
 pub struct Map {
     x_origin: usize,
     y_origin: usize,
@@ -43,11 +44,6 @@ impl Map {
         match obstacle_list {
             Some(obstacle_list) => {
                 for obstacle in obstacle_list {
-                    println!(
-                        "Obstacle position: {:?}, rover position: {:?}",
-                        obstacle.get_position(),
-                        position
-                    );
                     if obstacle.get_position() == position {
                         obstructed = true;
                         break;
@@ -57,5 +53,43 @@ impl Map {
             None => {}
         }
         obstructed
+    }
+}
+
+#[cfg(test)]
+mod position_obstructed {
+
+    use crate::map::Map;
+    use crate::obstacle::Obstacle;
+    use crate::position::Position;
+
+    #[test]
+    fn position_is_obstructed() {
+        let position = Position::new(1, 3);
+        let obstacle_list = Some(Vec::from([
+            Obstacle::new(Position::new(2, 4)),
+            Obstacle::new(Position::new(1, 3)),
+        ]));
+        let result = Map::is_position_obstructed(position, &obstacle_list);
+        assert_eq!(result, true);
+    }
+
+    #[test]
+    fn position_is_not_obstructed() {
+        let position = Position::new(2, 3);
+        let obstacle_list = Some(Vec::from([
+            Obstacle::new(Position::new(2, 4)),
+            Obstacle::new(Position::new(1, 3)),
+        ]));
+        let result = Map::is_position_obstructed(position, &obstacle_list);
+        assert_eq!(result, false);
+    }
+
+    #[test]
+    fn there_are_no_obstructions() {
+        let position = Position::new(2, 3);
+        let obstacle_list = None;
+        let result = Map::is_position_obstructed(position, &obstacle_list);
+        assert_eq!(result, false);
     }
 }
