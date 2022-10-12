@@ -1,3 +1,6 @@
+use crate::Obstacle;
+use crate::Position;
+
 pub struct Map {
     x_origin: usize,
     y_origin: usize,
@@ -29,5 +32,30 @@ impl Map {
 
     pub fn get_y_limit(&self) -> usize {
         self.y_limit
+    }
+
+    pub fn is_position_obstructed(
+        position: Position,
+        obstacle_list: &Option<Vec<Obstacle>>,
+    ) -> bool {
+        let mut obstructed: bool = false;
+
+        match obstacle_list {
+            Some(obstacle_list) => {
+                for obstacle in obstacle_list {
+                    println!(
+                        "Obstacle position: {:?}, rover position: {:?}",
+                        obstacle.get_position(),
+                        position
+                    );
+                    if obstacle.get_position() == position {
+                        obstructed = true;
+                        break;
+                    }
+                }
+            }
+            None => {}
+        }
+        obstructed
     }
 }

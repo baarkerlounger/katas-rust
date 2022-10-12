@@ -1,14 +1,22 @@
 mod direction;
 mod map;
+mod obstacle;
+mod position;
 mod rover;
 
 use direction::Direction;
 use map::Map;
+use obstacle::Obstacle;
+use position::Position;
 use rover::Rover;
 
 fn main() {
-    let map = Map::new(0, 0, 5, 5);
-    let mut rover = Rover::new(3, 2, Direction::N, map);
+    let mut rover = Rover::new(
+        Position::new(3, 2),
+        Direction::N,
+        Map::new(0, 0, 5, 5),
+        Some(obstacle_list()),
+    );
     let commands = Vec::from(["f", "l", "b"]);
     rover.run_commands(commands);
     println!(
@@ -17,4 +25,10 @@ fn main() {
         rover.get_y(),
         rover.get_direction()
     );
+}
+
+fn obstacle_list() -> Vec<Obstacle> {
+    let obstacle_1 = Obstacle::new(Position::new(0, 3));
+    let obstacle_2 = Obstacle::new(Position::new(2, 4));
+    Vec::from([obstacle_1, obstacle_2])
 }
