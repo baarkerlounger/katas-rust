@@ -19,19 +19,19 @@ impl Map {
         }
     }
 
-    pub fn get_x_origin(&self) -> usize {
+    pub fn x_origin(&self) -> usize {
         self.x_origin
     }
 
-    pub fn get_y_origin(&self) -> usize {
+    pub fn y_origin(&self) -> usize {
         self.y_origin
     }
 
-    pub fn get_x_limit(&self) -> usize {
+    pub fn x_limit(&self) -> usize {
         self.x_limit
     }
 
-    pub fn get_y_limit(&self) -> usize {
+    pub fn y_limit(&self) -> usize {
         self.y_limit
     }
 
@@ -44,7 +44,7 @@ impl Map {
         match obstacle_list {
             Some(obstacle_list) => {
                 for obstacle in obstacle_list {
-                    if obstacle.get_position() == position {
+                    if obstacle.position() == position {
                         obstructed = true;
                         break;
                     }

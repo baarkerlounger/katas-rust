@@ -9,7 +9,7 @@ impl Obstacle {
         Obstacle { position }
     }
 
-    pub fn get_position(&self) -> Position {
+    pub fn position(&self) -> Position {
         self.position
     }
 }

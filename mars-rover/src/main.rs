@@ -21,9 +21,9 @@ fn main() {
     rover.run_commands(commands);
     println!(
         "Command execution completed, rover is at x: {}, y: {} facing: {:?}",
-        rover.get_x(),
-        rover.get_y(),
-        rover.get_direction()
+        rover.x(),
+        rover.y(),
+        rover.direction()
     );
 }
 

@@ -25,15 +25,15 @@ impl Rover {
         }
     }
 
-    pub fn get_x(&self) -> usize {
+    pub fn x(&self) -> usize {
         self.position.x
     }
 
-    pub fn get_y(&self) -> usize {
+    pub fn y(&self) -> usize {
         self.position.y
     }
 
-    pub fn get_direction(&self) -> Direction {
+    pub fn direction(&self) -> Direction {
         self.direction
     }
 
@@ -68,29 +68,29 @@ impl Rover {
         let mut position = self.position.clone();
         match self.direction {
             Direction::N => {
-                if position.y == self.map.get_y_limit() {
-                    position.y = self.map.get_y_origin();
+                if position.y == self.map.y_limit() {
+                    position.y = self.map.y_origin();
                 } else {
                     position.y = position.y + 1;
                 }
             }
             Direction::E => {
-                if position.x == self.map.get_x_limit() {
-                    position.x = self.map.get_x_origin();
+                if position.x == self.map.x_limit() {
+                    position.x = self.map.x_origin();
                 } else {
                     position.x = position.x + 1;
                 }
             }
             Direction::S => {
-                if position.y == self.map.get_y_origin() {
-                    position.y = self.map.get_y_limit();
+                if position.y == self.map.y_origin() {
+                    position.y = self.map.y_limit();
                 } else {
                     position.y = position.y - 1;
                 }
             }
             Direction::W => {
-                if position.x == self.map.get_x_origin() {
-                    position.x = self.map.get_x_limit();
+                if position.x == self.map.x_origin() {
+                    position.x = self.map.x_limit();
                 } else {
                     position.x = position.x - 1;
                 }
@@ -103,29 +103,29 @@ impl Rover {
         let mut position = self.position.clone();
         match self.direction {
             Direction::N => {
-                if position.y == self.map.get_y_origin() {
-                    position.y = self.map.get_y_limit();
+                if position.y == self.map.y_origin() {
+                    position.y = self.map.y_limit();
                 } else {
                     position.y = position.y - 1;
                 }
             }
             Direction::E => {
-                if position.x == self.map.get_x_origin() {
-                    position.x = self.map.get_x_limit();
+                if position.x == self.map.x_origin() {
+                    position.x = self.map.x_limit();
                 } else {
                     position.x = position.x - 1;
                 }
             }
             Direction::S => {
-                if position.y == self.map.get_y_limit() {
-                    position.y = self.map.get_y_origin();
+                if position.y == self.map.y_limit() {
+                    position.y = self.map.y_origin();
                 } else {
                     position.y = position.y + 1;
                 }
             }
             Direction::W => {
-                if position.x == self.map.get_x_limit() {
-                    position.x = self.map.get_x_origin();
+                if position.x == self.map.x_limit() {
+                    position.x = self.map.x_origin();
                 } else {
                     position.x = position.x + 1;
                 }
@@ -173,9 +173,9 @@ mod run_commands {
         let mut rover = Rover::new(*POSITION, Direction::N, *MAP, None);
         let commands = Vec::from(["f", "l", "b"]);
         rover.run_commands(commands);
-        assert_eq!(rover.get_x(), 4);
-        assert_eq!(rover.get_y(), 3);
-        assert_eq!(rover.get_direction(), Direction::W);
+        assert_eq!(rover.x(), 4);
+        assert_eq!(rover.y(), 3);
+        assert_eq!(rover.direction(), Direction::W);
     }
 
     #[test]
@@ -183,9 +183,9 @@ mod run_commands {
         let mut rover = Rover::new(*POSITION, Direction::N, *MAP, None);
         let commands = Vec::from(["f", "f", "f", "f", "f", "r", "f", "f", "f"]);
         rover.run_commands(commands);
-        assert_eq!(rover.get_x(), 0);
-        assert_eq!(rover.get_y(), 1);
-        assert_eq!(rover.get_direction(), Direction::E);
+        assert_eq!(rover.x(), 0);
+        assert_eq!(rover.y(), 1);
+        assert_eq!(rover.direction(), Direction::E);
     }
 
     #[test]
@@ -193,9 +193,9 @@ mod run_commands {
         let mut rover = Rover::new(*POSITION, Direction::N, *MAP, None);
         let commands = Vec::from(["b", "b", "b", "l", "b", "b", "b", "b"]);
         rover.run_commands(commands);
-        assert_eq!(rover.get_x(), 1);
-        assert_eq!(rover.get_y(), 5);
-        assert_eq!(rover.get_direction(), Direction::W);
+        assert_eq!(rover.x(), 1);
+        assert_eq!(rover.y(), 5);
+        assert_eq!(rover.direction(), Direction::W);
     }
 
     #[test]
@@ -207,8 +207,8 @@ mod run_commands {
         let mut rover = Rover::new(*POSITION, Direction::N, *MAP, Some(obstacle_list));
         let commands = Vec::from(["r", "b", "b", "b", "l", "f", "f", "f"]);
         rover.run_commands(commands);
-        assert_eq!(rover.get_x(), 0);
-        assert_eq!(rover.get_y(), 2);
-        assert_eq!(rover.get_direction(), Direction::N);
+        assert_eq!(rover.x(), 0);
+        assert_eq!(rover.y(), 2);
+        assert_eq!(rover.direction(), Direction::N);
     }
 }
